@@ -1,0 +1,22 @@
+Sistem autentikasi, roles (Spatie), CRUD Suppliers, Ingredients, dan modul Purchase Order (PO) sudah selesai dibuat dan berjalan lancar. Sekarang, tolong implementasikan "Tahap 3: Modul Produk & Manajemen Resep (Bill of Materials)" dengan instruksi detail sebagai berikut:
+
+1. MIGRATION & MODEL PRODUK (products):
+   - Buat tabel 'products' dengan field:id (primary key), name (string), sku (string, unique), price (decimal, 10,2), category (string), dan is_active (boolean, default true).
+   - Di dalam Model Product, definisikan relasi Many-to-Many ke model Ingredient melalui tabel pivot 'ingredient_product'.
+
+2. MIGRATION TABEL PIVOT RESEP (ingredient_product):
+   - Buat tabel pivot 'ingredient_product' dengan field: product_id (foreignId), ingredient_id (foreignId), dan quantity (decimal, 8,2). Field quantity ini digunakan untuk menyimpan takaran bahan baku yang digunakan per satu porsi produk (misal: 18.00 gram biji kopi).
+
+3. FORM REQUEST & VALIDATION:
+   - Buat StoreProductRequest untuk memvalidasi input produk (nama, sku, harga, kategori).
+   - Buat validasi khusus saat menyimpan resep: pastikan ingredient_id yang dipilih valid dan quantity wajib diisi angka di atas 0.
+
+4. CONTROLLER LOGIC (ProductController):
+   - Buat standar CRUD untuk produk jualan.
+   - Pada fungsi 'store' dan 'update', tambahkan logic agar user bisa memilih beberapa bahan baku sekaligus beserta takarannya (quantity), lalu simpan ke tabel pivot menggunakan fungsi $product->ingredients()->sync().
+   - Pada fungsi 'destroy', berikan proteksi (fail-safe): produk tidak boleh dihapus jika sudah pernah ada di dalam transaksi penjualan (tabel orders yang akan dibuat nanti).
+
+5. SECURITY & ROUTING:
+   - Daftarkan route resource 'products' di dalam group middleware ['auth', 'role:owner|manager'] di file routes/web.php.
+
+Tolong generate kodenya dengan lengkap dan rapi menggunakan struktur Laravel tanpa memotong bagian logic utamanya.
