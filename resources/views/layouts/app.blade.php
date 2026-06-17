@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @stack('styles')
     </head>
     <body class="font-sans antialiased text-charcoal bg-offwhite">
         <div x-data="{ mobileSidebarOpen: false }" class="min-h-screen flex overflow-hidden">
@@ -41,5 +42,6 @@
                 </main>
             </div>
         </div>
+        @stack('scripts')
     </body>
 </html>

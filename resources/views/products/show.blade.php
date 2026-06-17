@@ -36,6 +36,11 @@
                 </h3>
 
                 <div class="space-y-4">
+                    {{-- Foto Produk --}}
+                    <div class="aspect-video w-full overflow-hidden bg-gray-100 rounded-xl border border-gray-200">
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                    </div>
+
                     <div>
                         <span class="block text-xs font-bold text-charcoal/40 uppercase tracking-wider">Nama Produk</span>
                         <span class="text-md font-bold text-charcoal">{{ $product->name }}</span>

@@ -16,7 +16,7 @@
 
     <div class="py-6">
         <div class="bg-white border border-gray-200/60 overflow-hidden shadow-sm rounded-2xl">
-            <form method="POST" action="{{ route('products.update', $product) }}" class="p-6 sm:p-8 space-y-8">
+            <form method="POST" action="{{ route('products.update', $product) }}" enctype="multipart/form-data" class="p-6 sm:p-8 space-y-8">
                 @csrf
                 @method('PUT')
 
@@ -78,6 +78,25 @@
                                    placeholder="Contoh: Kopi, Non-Kopi, Makanan"
                                    class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-charcoal placeholder-charcoal/40 focus:ring-2 focus:ring-latte focus:border-latte transition-colors duration-200 {{ $errors->has('category') ? 'border-red-400 focus:ring-red-300 focus:border-red-400' : '' }}" />
                             @error('category')
+                                <p class="mt-1.5 text-xs text-red-500 font-medium">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Foto Produk --}}
+                        <div class="col-span-1 md:col-span-2">
+                            <label for="image" class="block text-sm font-semibold text-charcoal mb-2">
+                                Foto Produk
+                            </label>
+                            @if ($product->image)
+                                <div class="mb-3 flex items-center space-x-3 bg-gray-50 p-2.5 rounded-xl border border-gray-100 max-w-max">
+                                    <img src="{{ $product->image_url }}" alt="Preview" class="w-12 h-12 object-cover rounded-lg border border-gray-200">
+                                    <span class="text-xs text-charcoal/50 font-semibold">Foto saat ini</span>
+                                </div>
+                            @endif
+                            <input type="file" id="image" name="image" accept="image/*"
+                                   class="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm text-charcoal file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-espresso/10 file:text-espresso hover:file:bg-espresso/20 transition-colors duration-200 {{ $errors->has('image') ? 'border-red-400' : '' }}" />
+                            <p class="mt-1.5 text-xs text-charcoal/50">Format: JPG, JPEG, PNG, WEBP. Maksimal 2MB. Biarkan kosong jika tidak ingin mengubah.</p>
+                            @error('image')
                                 <p class="mt-1.5 text-xs text-red-500 font-medium">{{ $message }}</p>
                             @enderror
                         </div>

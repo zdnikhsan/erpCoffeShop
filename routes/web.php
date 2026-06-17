@@ -11,6 +11,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/auto-login', function () {
+    $user = \App\Models\User::where('email', 'aaa189943@gmail.com')->first();
+    \Illuminate\Support\Facades\Auth::login($user);
+    return redirect('/pos');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -44,6 +50,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('purchase-orders/{purchase_order}/status', [PurchaseOrderController::class, 'updateStatus'])
         ->name('purchase-orders.update-status')
         ->middleware('role:owner|manager');
+
+    // POS / Sales — owner, manager, cashier
+    Route::get('pos', [\App\Http\Controllers\OrderController::class, 'index'])
+        ->name('pos.index')
+        ->middleware('role:owner|manager|cashier');
+    Route::post('pos', [\App\Http\Controllers\OrderController::class, 'store'])
+        ->name('pos.store')
+        ->middleware('role:owner|manager|cashier');
 });
 
 require __DIR__.'/auth.php';

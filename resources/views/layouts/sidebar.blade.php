@@ -54,8 +54,21 @@
                 <span>Dashboard</span>
             </a>
 
+            <!-- Operasional Kasir (POS) Link -->
+            @hasanyrole('owner|manager|cashier')
+            <a href="{{ route('pos.index') }}" 
+               class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('pos.index') ? 'bg-latte text-espresso font-semibold shadow-md shadow-latte/20' : 'text-white/80 hover:text-white hover:bg-espresso-light/40' }}">
+                <span class="{{ request()->routeIs('pos.index') ? 'text-espresso' : 'text-latte group-hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </span>
+                <span>Operasional Kasir (POS)</span>
+            </a>
+            @endhasanyrole
+
             <!-- Profile Link -->
-            <a href="{{ route('profile.edit') }}" 
+            <!-- <a href="{{ route('profile.edit') }}" 
                class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('profile.edit') ? 'bg-latte text-espresso font-semibold shadow-md shadow-latte/20' : 'text-white/80 hover:text-white hover:bg-espresso-light/40' }}">
                 <span class="{{ request()->routeIs('profile.edit') ? 'text-espresso' : 'text-latte group-hover:text-white' }}">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,7 +76,7 @@
                     </svg>
                 </span>
                 <span>Profile</span>
-            </a>
+            </a> -->
 
             <!-- Supplier Link (hanya owner & manager) -->
             @hasanyrole('owner|manager')

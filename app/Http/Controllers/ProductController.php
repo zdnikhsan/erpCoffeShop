@@ -49,8 +49,12 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request): RedirectResponse
     {
         DB::transaction(function () use ($request) {
-            $productData = $request->safe()->except('ingredients');
+            $productData = $request->safe()->except(['ingredients', 'image']);
             $productData['is_active'] = $request->boolean('is_active', true);
+
+            if ($request->hasFile('image')) {
+                $productData['image'] = $request->file('image')->store('products', 'public');
+            }
 
             $product = Product::create($productData);
 
@@ -96,8 +100,16 @@ class ProductController extends Controller
     public function update(StoreProductRequest $request, Product $product): RedirectResponse
     {
         DB::transaction(function () use ($request, $product) {
-            $productData = $request->safe()->except('ingredients');
+            $productData = $request->safe()->except(['ingredients', 'image']);
             $productData['is_active'] = $request->boolean('is_active', false);
+
+            if ($request->hasFile('image')) {
+                // Delete old image if exists locally
+                if ($product->image && !filter_var($product->image, FILTER_VALIDATE_URL)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($product->image);
+                }
+                $productData['image'] = $request->file('image')->store('products', 'public');
+            }
 
             $product->update($productData);
 
@@ -122,15 +134,14 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
-        // Fail-safe: produk tidak boleh dihapus jika sudah pernah ada di dalam transaksi penjualan (tabel orders/order_items yang akan dibuat nanti)
+        // Fail-safe: produk tidak boleh dihapus jika sudah pernah ada di dalam transaksi penjualan (tabel order_product)
         $isLinkedToOrders = false;
 
-        if (Schema::hasTable('order_items')) {
+        if (Schema::hasTable('order_product')) {
+            $isLinkedToOrders = DB::table('order_product')->where('product_id', $product->id)->exists();
+        } elseif (Schema::hasTable('order_items')) {
             $isLinkedToOrders = DB::table('order_items')->where('product_id', $product->id)->exists();
-        } elseif (Schema::hasTable('order_details')) {
-            $isLinkedToOrders = DB::table('order_details')->where('product_id', $product->id)->exists();
         } elseif (Schema::hasTable('orders')) {
-            // Check if orders table exists and has direct reference (just in case)
             $isLinkedToOrders = DB::table('orders')->where('product_id', $product->id)->exists();
         }
 

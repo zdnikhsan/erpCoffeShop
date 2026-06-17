@@ -72,6 +72,7 @@
                     <thead>
                         <tr class="bg-espresso/5 border-b border-gray-200/60">
                             <th class="px-6 py-4 font-semibold text-espresso text-xs uppercase tracking-wider">No</th>
+                            <th class="px-6 py-4 font-semibold text-espresso text-xs uppercase tracking-wider">Foto</th>
                             <th class="px-6 py-4 font-semibold text-espresso text-xs uppercase tracking-wider">Nama Produk</th>
                             <th class="px-6 py-4 font-semibold text-espresso text-xs uppercase tracking-wider">SKU</th>
                             <th class="px-6 py-4 font-semibold text-espresso text-xs uppercase tracking-wider">Kategori</th>
@@ -86,6 +87,9 @@
                             <tr class="hover:bg-latte/5 transition-colors duration-150">
                                 <td class="px-6 py-4 text-charcoal/70 font-medium">
                                     {{ $loop->iteration + ($products->currentPage() - 1) * $products->perPage() }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-10 h-10 object-cover rounded-lg border border-gray-200" loading="lazy">
                                 </td>
                                 <td class="px-6 py-4 font-semibold text-charcoal">{{ $product->name }}</td>
                                 <td class="px-6 py-4">

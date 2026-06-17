@@ -30,6 +30,7 @@ class StoreProductRequest extends FormRequest
             'price'                       => ['required', 'numeric', 'min:0', 'max:99999999.99'],
             'category'                    => ['required', 'string', 'max:255'],
             'is_active'                   => ['nullable', 'boolean'],
+            'image'                       => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'ingredients'                 => ['required', 'array', 'min:1'],
             'ingredients.*.ingredient_id' => ['required', 'exists:ingredients,id'],
             'ingredients.*.quantity'      => ['required', 'numeric', 'gt:0', 'max:999999.99'],
