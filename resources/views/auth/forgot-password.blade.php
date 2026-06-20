@@ -1,6 +1,10 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    {{-- Header --}}
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-espresso">Lupa Kata Sandi?</h2>
+        <p class="text-sm text-charcoal/60 mt-1">
+            Masukkan alamat email Anda dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi Anda.
+        </p>
     </div>
 
     <!-- Session Status -->
@@ -11,15 +15,23 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" :value="__('Email')" class="text-charcoal font-semibold" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
+        {{-- Submit Button --}}
+        <div class="mt-6">
+            <x-primary-button class="w-full justify-center py-3 text-sm tracking-wider">
+                Kirim Tautan Reset Sandi
             </x-primary-button>
+        </div>
+
+        {{-- Back to Login Link --}}
+        <div class="mt-6 text-center">
+            <a href="{{ route('login') }}" class="font-semibold text-sm text-espresso hover:text-espresso-light transition-colors hover:underline">
+                Kembali ke Halaman Masuk
+            </a>
         </div>
     </form>
 </x-guest-layout>

@@ -125,6 +125,51 @@
                 <span>Bahan Baku</span>
             </a>
             @endhasanyrole
+
+            {{-- Manajemen & Admin (hanya owner) --}}
+            @hasanyrole('owner')
+            <div class="pt-4 pb-2 px-4 text-xs font-semibold text-latte/50 uppercase tracking-wider">
+                Manajemen & Admin
+            </div>
+
+            {{-- Manajemen User Link --}}
+            <a href="{{ route('users.index') }}"
+               class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('users.*') ? 'bg-latte text-espresso font-semibold shadow-md shadow-latte/20' : 'text-white/80 hover:text-white hover:bg-espresso-light/40' }}">
+                <span class="{{ request()->routeIs('users.*') ? 'text-espresso' : 'text-latte group-hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </span>
+                <span>Manajemen User</span>
+            </a>
+
+            {{-- Fitur Keuangan (hanya owner) --}}
+            <div class="pt-4 pb-2 px-4 text-xs font-semibold text-latte/50 uppercase tracking-wider">
+                Keuangan & Laporan
+            </div>
+            
+            {{-- Dashboard Finance Link --}}
+            <a href="{{ route('finance.dashboard') }}" 
+               class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('finance.dashboard') ? 'bg-latte text-espresso font-semibold shadow-md shadow-latte/20' : 'text-white/80 hover:text-white hover:bg-espresso-light/40' }}">
+                <span class="{{ request()->routeIs('finance.dashboard') ? 'text-espresso' : 'text-latte group-hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </span>
+                <span>Laporan Laba Rugi</span>
+            </a>
+
+            {{-- Expenses Link --}}
+            <a href="{{ route('expenses.index') }}" 
+               class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('expenses.*') ? 'bg-latte text-espresso font-semibold shadow-md shadow-latte/20' : 'text-white/80 hover:text-white hover:bg-espresso-light/40' }}">
+                <span class="{{ request()->routeIs('expenses.*') ? 'text-espresso' : 'text-latte group-hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </span>
+                <span>Catatan Pengeluaran</span>
+            </a>
+            @endhasanyrole
         </nav>
     </div>
 

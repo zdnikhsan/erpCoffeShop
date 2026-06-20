@@ -5,6 +5,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\FinanceDashboardController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,14 +21,19 @@ Route::get('/auto-login', function () {
     return redirect('/pos');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // User Management — HANYA owner (role:owner strict, 403 untuk manager & cashier)
+    Route::resource('users', UserController::class)
+        ->except(['show'])
+        ->middleware('role:owner');
 
     // Supplier — hanya owner & manager
     Route::resource('suppliers', SupplierController::class)
@@ -58,6 +67,13 @@ Route::middleware('auth')->group(function () {
     Route::post('pos', [\App\Http\Controllers\OrderController::class, 'store'])
         ->name('pos.store')
         ->middleware('role:owner|manager|cashier');
+
+    // Finance & Expenses — hanya owner
+    Route::middleware('role:owner')->group(function () {
+        Route::get('finance', [FinanceDashboardController::class, 'index'])
+            ->name('finance.dashboard');
+        Route::resource('expenses', ExpenseController::class);
+    });
 });
 
 require __DIR__.'/auth.php';
